@@ -1,0 +1,74 @@
+package tests;
+
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import pages.MainPage;
+import utils.BrowserFactory;
+import java.util.concurrent.TimeUnit;
+
+
+import static org.junit.Assert.assertTrue;
+
+public class ConstructorTest {
+    private WebDriver driver;
+    private MainPage mainPage;
+
+    @Before
+    public void setUp() {
+        // Запуск Chrome
+        //driver = BrowserFactory.startChrome();
+
+        // Запуск Yandex Browser (раскомментировать при необходимости)
+        driver = BrowserFactory.startYandexBrowser();
+
+        mainPage = new MainPage(driver);
+        mainPage.open();
+    }
+
+    @Test
+    @DisplayName("Переход к разделу Соусы")
+    @Description("Тест проверяет успешность перехода к разделу 'Соусы'")
+    public void switchToSaucesSectionTest() throws InterruptedException {
+        mainPage.clickSaucesSection();
+        assertTrue("Вкладка Соусы не активна", mainPage.isSaucesActive());
+        TimeUnit.SECONDS.sleep(3); // Пауза 3 секунды
+    }
+
+    @Test
+    @DisplayName("Переход к разделу Начинки")
+    @Description("Тест проверяет успешность перехода к разделу 'Начинки'")
+    public void switchToFillingsSectionTest() throws InterruptedException {
+        mainPage.clickFillingsSection();
+        assertTrue("Вкладка Начинки не активна", mainPage.isFillingsActive());
+        TimeUnit.SECONDS.sleep(3); // Пауза 3 секунды
+    }
+
+    @Test
+    @DisplayName("Переход к разделу Булки")
+    @Description("Тест проверяет успешность перехода к разделу Булки после переключения")
+    public void switchToBunsSectionTest() throws InterruptedException {
+        // Проверяем, что булки активны по умолчанию
+        assertTrue("Вкладка Булки не активна по умолчанию", mainPage.isBunsActiveByDefault());
+
+        // Переключаемся на начинки
+        mainPage.clickFillingsSection();
+        assertTrue("Вкладка Начинки не активна", mainPage.isFillingsActive());
+
+        // Возвращаемся к булкам
+        mainPage.clickBunsSection();
+        assertTrue("Вкладка Булки не активна после переключения", mainPage.isBunsActive());
+
+        TimeUnit.SECONDS.sleep(3); // Пауза 3 секунды
+    }
+
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
