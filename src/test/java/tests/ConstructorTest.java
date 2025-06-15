@@ -62,7 +62,7 @@ public class ConstructorTest {
         mainPage.clickBunsSection();
         assertTrue("Вкладка Булки не активна после переключения", mainPage.isBunsActive());
 
-        TimeUnit.SECONDS.sleep(3); // Пауза 3 секунды
+        TimeUnit.SECONDS.sleep(5); // Пауза 3 секунды
     }
 
     @After

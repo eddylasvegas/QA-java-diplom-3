@@ -29,7 +29,7 @@ public class LoginTest {
     @Before
     public void setUp() {
         // Запуск Chrome
-        // driver = BrowserFactory.startChrome();
+         //driver = BrowserFactory.startChrome();
 
         // Запуск Yandex Browser (раскомментировать при необходимости)
          driver = BrowserFactory.startYandexBrowser();
