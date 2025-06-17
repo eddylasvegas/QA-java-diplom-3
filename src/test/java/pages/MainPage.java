@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,72 +24,77 @@ public class MainPage {
     public MainPage(WebDriver driver) {
         this.driver = driver;
     }
-
+    @Step("Открытие главной страницы")
     public void open() {
         driver.get(BASE_URL);
         waitForPageLoad();
     }
-
+    @Step("Ожидание загрузки главной страницы")
     public void waitForPageLoad() {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.visibilityOfElementLocated(constructorTitle));
     }
-
+    @Step("Клик по разделу Булки")
     public void clickBunsSection() {
         driver.findElement(bunsTab).click();
         waitBunsLoad();
     }
-
+    @Step("Клик по разделу Соусы")
     public void clickSaucesSection() {
         driver.findElement(saucesTab).click();
         waitSaucesLoad();
     }
-
+    @Step("Клик по разделу Начинки")
     public void clickFillingsSection() {
         driver.findElement(fillingsTab).click();
         waitFillingsLoad();
     }
-
+    @Step("Ожидание загрузки раздела Булки")
     public void waitBunsLoad() {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.attributeContains(bunsTab, "class", ACTIVE_TAB_CLASS));
     }
-
+    @Step("Ожидание загрузки раздела Соусы")
     public void waitSaucesLoad() {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.attributeContains(saucesTab, "class", ACTIVE_TAB_CLASS));
     }
-
+    @Step("Ожидание загрузки раздела Начинки")
     public void waitFillingsLoad() {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.attributeContains(fillingsTab, "class", ACTIVE_TAB_CLASS));
     }
 
     // Методы проверки состояния
+    @Step("Проверка активности раздела Булки")
     public boolean isBunsActive() {
         return driver.findElement(bunsTab).getAttribute("class").contains(ACTIVE_TAB_CLASS);
     }
 
+    @Step("Проверка активности раздела Соусы")
     public boolean isSaucesActive() {
         return driver.findElement(saucesTab).getAttribute("class").contains(ACTIVE_TAB_CLASS);
     }
 
+    @Step("Проверка активности раздела Начинки")
     public boolean isFillingsActive() {
         return driver.findElement(fillingsTab).getAttribute("class").contains(ACTIVE_TAB_CLASS);
     }
 
     // метод проверки начального состояния вкладок конструктора бургеров, проверяет,
     // что раздел Булки активен по умолчанию, для switchToBunsSectionTest()
+    @Step("Проверка, что раздел Булки активен по умолчанию")
     public boolean isBunsActiveByDefault() {
         return isBunsActive() &&
                 !isSaucesActive() &&
                 !isFillingsActive();
     }
-
+    @Step("Клик по кнопке Войти в аккаунт")
     public void clickLoginAccountButton() {
         driver.findElement(loginAccountButton).click();
     }
 
+    @Step("Клик по кнопке Личный кабинет")
     public void clickPersonalAccountButton() {
         driver.findElement(personalAccountButton).click();
     }
