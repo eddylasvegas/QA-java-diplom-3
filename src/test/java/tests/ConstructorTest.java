@@ -29,25 +29,25 @@ public class ConstructorTest {
     @Test
     @DisplayName("Переход к разделу Соусы")
     @Description("Тест проверяет успешность перехода к разделу 'Соусы'")
-    public void switchToSaucesSectionTest() throws InterruptedException {
+    public void switchToSaucesSectionTest() {
         mainPage.clickSaucesSection();
         assertTrue("Вкладка Соусы не активна", mainPage.isSaucesActive());
-        TimeUnit.SECONDS.sleep(3); // Пауза 3 секунды
+
     }
 
     @Test
     @DisplayName("Переход к разделу Начинки")
     @Description("Тест проверяет успешность перехода к разделу 'Начинки'")
-    public void switchToFillingsSectionTest() throws InterruptedException {
+    public void switchToFillingsSectionTest() {
         mainPage.clickFillingsSection();
         assertTrue("Вкладка Начинки не активна", mainPage.isFillingsActive());
-        TimeUnit.SECONDS.sleep(3); // Пауза 3 секунды
+
     }
 
     @Test
     @DisplayName("Переход к разделу Булки")
     @Description("Тест проверяет успешность перехода к разделу Булки после переключения")
-    public void switchToBunsSectionTest() throws InterruptedException {
+    public void switchToBunsSectionTest() {
         // Проверяем, что булки активны по умолчанию
         assertTrue("Вкладка Булки не активна по умолчанию", mainPage.isBunsActiveByDefault());
 
@@ -59,7 +59,6 @@ public class ConstructorTest {
         mainPage.clickBunsSection();
         assertTrue("Вкладка Булки не активна после переключения", mainPage.isBunsActive());
 
-        TimeUnit.SECONDS.sleep(5); // Пауза 3 секунды
     }
 
     @After
