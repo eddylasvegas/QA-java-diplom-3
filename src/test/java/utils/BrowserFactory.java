@@ -7,10 +7,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
 import java.util.Properties;
 
 public class BrowserFactory {
     private static final Properties properties = new Properties();
+    private static final int IMPLICIT_WAIT_SECONDS = 5;
 
     static {
         try (InputStream input = BrowserFactory.class.getClassLoader().getResourceAsStream("config.properties")) {
@@ -24,14 +26,20 @@ public class BrowserFactory {
 
     public static WebDriver getDriver() {
         String browser = properties.getProperty("browser", "chrome").toLowerCase();
+        WebDriver driver;
 
         switch (browser) {
             case "yandex":
-                return startYandexBrowser();
+                driver = startYandexBrowser();
+                break;
             case "chrome":
             default:
-                return startChrome();
+                driver = startChrome();
         }
+
+        // Устанавливаем Implicit Wait для всех создаваемых драйверов
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT_SECONDS));
+        return driver;
     }
 
     private static WebDriver startYandexBrowser() {
