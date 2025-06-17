@@ -19,11 +19,8 @@ public class ConstructorTest {
 
     @Before
     public void setUp() {
-        // Запуск Chrome
-        //driver = BrowserFactory.startChrome();
 
-        // Запуск Yandex Browser (раскомментировать при необходимости)
-        driver = BrowserFactory.startYandexBrowser();
+        driver = BrowserFactory.getDriver(); // Браузер берется из config.properties
 
         mainPage = new MainPage(driver);
         mainPage.open();

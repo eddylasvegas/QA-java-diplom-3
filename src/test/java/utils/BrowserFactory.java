@@ -5,8 +5,36 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class BrowserFactory {
-    public static WebDriver startYandexBrowser() {
+    private static final Properties properties = new Properties();
+
+    static {
+        try (InputStream input = BrowserFactory.class.getClassLoader().getResourceAsStream("config.properties")) {
+            if (input != null) {
+                properties.load(input);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static WebDriver getDriver() {
+        String browser = properties.getProperty("browser", "chrome").toLowerCase();
+
+        switch (browser) {
+            case "yandex":
+                return startYandexBrowser();
+            case "chrome":
+            default:
+                return startChrome();
+        }
+    }
+
+    private static WebDriver startYandexBrowser() {
         System.setProperty("webdriver.chrome.driver", "C:\\Automation\\YandexDriver\\yandexdriver.exe");
 
         ChromeOptions options = new ChromeOptions();
@@ -18,12 +46,10 @@ public class BrowserFactory {
         return driver;
     }
 
-    public static WebDriver startChrome() {
+    private static WebDriver startChrome() {
         WebDriverManager.chromedriver().setup();
-
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
-
         WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         return driver;
