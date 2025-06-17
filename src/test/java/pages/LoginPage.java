@@ -13,8 +13,8 @@ public class LoginPage {
     private final WebDriver driver;
 
     // Локаторы
-    private final By emailField = By.xpath(".//fieldset[1]//input");
-    private final By passwordField = By.xpath(".//fieldset[2]//input");
+    private final By emailField = By.xpath(".//input[@name='name']");
+    private final By passwordField = By.xpath(".//input[@name='Пароль']");
     private final By loginButton = By.xpath(".//button[text()='Войти']");
     private final By registerLink = By.xpath(".//a[text()='Зарегистрироваться']");
     private final By restorePasswordLink = By.xpath(".//a[text()='Восстановить пароль']");

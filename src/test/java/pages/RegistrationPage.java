@@ -13,9 +13,9 @@ public class RegistrationPage {
     private final WebDriver driver;
 
     // Локаторы
-    private final By nameField = By.xpath(".//fieldset[1]//input");
-    private final By emailField = By.xpath(".//fieldset[2]//input");
-    private final By passwordField = By.xpath(".//fieldset[3]//input");
+    private final By nameField = By.xpath(".//fieldset[contains(.,'Имя')]//input");
+    private final By emailField = By.xpath(".//fieldset[contains(.,'Email')]//input");
+    private final By passwordField = By.xpath(".//fieldset[contains(.,'Пароль')]//input");
     private final By registerButton = By.xpath(".//button[text()='Зарегистрироваться']");
     private final By loginLink = By.xpath(".//a[text()='Войти']");
     private final By passwordError = By.xpath(".//p[text()='Некорректный пароль']");

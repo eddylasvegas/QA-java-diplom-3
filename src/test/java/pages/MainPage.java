@@ -15,9 +15,9 @@ public class MainPage {
 
     // Локаторы
     private final By constructorTitle = By.xpath("//h1[text()='Соберите бургер']");
-    private final By bunsTab = By.cssSelector(".tab_tab__1SPyG:nth-child(1)");
-    private final By saucesTab = By.cssSelector(".tab_tab__1SPyG:nth-child(2)");
-    private final By fillingsTab = By.cssSelector(".tab_tab__1SPyG:nth-child(3)");
+    private final By bunsTab = By.xpath(".//span[text()='Булки']/parent::div");
+    private final By saucesTab = By.xpath(".//span[text()='Соусы']/parent::div");
+    private final By fillingsTab = By.xpath(".//span[text()='Начинки']/parent::div");
     private final By loginAccountButton = By.xpath(".//button[text()='Войти в аккаунт']");
     private final By personalAccountButton = By.xpath(".//p[text()='Личный Кабинет']");
 
