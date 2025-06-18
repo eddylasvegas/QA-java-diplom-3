@@ -11,20 +11,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.LoginPage;
 import pages.MainPage;
 import pages.RegistrationPage;
-import user.UserGenerator;
 import data.User;
 import utils.BrowserFactory;
-
+import user.UserGenerator;
+import api.AuthApi;
 import java.time.Duration;
 
 import static org.junit.Assert.assertTrue;
 
 public class LoginTest {
+    private static final String BASE_URL = "https://stellarburgers.nomoreparties.site/";
+    private static final String REGISTER_URL = BASE_URL + "register";
     private WebDriver driver;
     private MainPage mainPage;
     private LoginPage loginPage;
-    private RegistrationPage registrationPage;
     private User user;
+    private String accessToken;
 
     @Before
     public void setUp() {
@@ -33,24 +35,24 @@ public class LoginTest {
 
         mainPage = new MainPage(driver);
         loginPage = new LoginPage(driver);
-        registrationPage = new RegistrationPage(driver);
+
         user = UserGenerator.getValidUser();
 
-        // Регистрация пользователя для тестов входа
-        registrationPage.open();
-        registrationPage.register(user.getName(), user.getEmail(), user.getPassword());
+        var response = AuthApi.registerUser(user); // Регистрация через API вместо UI
+        accessToken = response.then().extract().path("accessToken");
+
     }
 
     @Test
     @DisplayName("Вход по кнопке 'Войти в аккаунт'")
     @Description("Тест проверяет вход через кнопку 'Войти в аккаунт' на главной странице")
     public void loginViaMainPageButtonTest() {
-        mainPage.open();
-        mainPage.clickLoginAccountButton();
+        driver.get(REGISTER_URL);
+        loginPage.clickLoginLink();
         loginPage.login(user.getEmail(), user.getPassword());
 
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlToBe("https://stellarburgers.nomoreparties.site/"));
+                .until(ExpectedConditions.urlToBe(BASE_URL));
         assertTrue("Главная страница не отображается после входа", mainPage.isBunsActiveByDefault());
     }
 
@@ -63,7 +65,7 @@ public class LoginTest {
         loginPage.login(user.getEmail(), user.getPassword());
 
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlToBe("https://stellarburgers.nomoreparties.site/"));
+                .until(ExpectedConditions.urlToBe(BASE_URL));
         assertTrue("Главная страница не отображается после входа", mainPage.isBunsActiveByDefault());
     }
 
@@ -71,12 +73,14 @@ public class LoginTest {
     @DisplayName("Вход через ссылку в форме регистрации")
     @Description("Тест проверяет вход через ссылку 'Войти' на странице регистрации")
     public void loginViaRegistrationFormLinkTest() {
-        registrationPage.open();
-        registrationPage.clickLoginLink();
+        driver.get(REGISTER_URL);
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.urlContains("register")); // Ждем загрузки
+        loginPage.clickLoginLink();
         loginPage.login(user.getEmail(), user.getPassword());
 
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlToBe("https://stellarburgers.nomoreparties.site/"));
+                .until(ExpectedConditions.urlToBe(BASE_URL));
         assertTrue("Главная страница не отображается после входа", mainPage.isBunsActiveByDefault());
     }
 
@@ -87,17 +91,22 @@ public class LoginTest {
         loginPage.open();
         loginPage.clickRestorePasswordLink();
 
-        // Возвращаемся на страницу входа (временное решение)
+        // Возвращаемся на страницу входа
         driver.navigate().back();
         loginPage.login(user.getEmail(), user.getPassword());
 
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlToBe("https://stellarburgers.nomoreparties.site/"));
+                .until(ExpectedConditions.urlToBe(BASE_URL));
         assertTrue("Главная страница не отображается после входа", mainPage.isBunsActiveByDefault());
     }
 
     @After
     public void tearDown() {
+        // Удаление пользователя через API
+        if (accessToken != null) {
+            AuthApi.deleteUser(accessToken);
+        }
+
         if (driver != null) {
             driver.quit();
         }
