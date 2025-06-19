@@ -1,5 +1,6 @@
 package tests;
 
+import api.AuthApi;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -24,6 +25,8 @@ import static org.junit.Assert.assertTrue;
 public class RegistrationTest {
     private WebDriver driver;
     private RegistrationPage registrationPage;
+    private User user;
+    private String accessToken;
 
     @Before
     public void setUp() {
@@ -38,12 +41,20 @@ public class RegistrationTest {
     @DisplayName("Успешная регистрация")
     @Description("Тест проверяет успешную регистрацию пользователя с валидными данными")
     public void successfulRegistrationTest() {
+        // Генерируем данные
         User user = UserGenerator.getValidUser();
+        // Регистрируем через UI
         registrationPage.register(user.getName(), user.getEmail(), user.getPassword());
 
-        // перенаправление на страницу входа после успешной регистрации и проверка появления кнопки
+        // Проверяем переход на страницу входа
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.urlContains("/login"));
+
+        // Получаем токен для удаления через API
+        accessToken = AuthApi.loginUser(user)
+                .then()
+                .extract()
+                .path("accessToken");
     }
 
     @Test
@@ -59,6 +70,11 @@ public class RegistrationTest {
 
     @After
     public void tearDown() {
+        // Удаляем пользователя, если он был создан
+        if (accessToken != null) {
+            AuthApi.deleteUser(accessToken);
+        }
+
         if (driver != null) {
             driver.quit();
         }
