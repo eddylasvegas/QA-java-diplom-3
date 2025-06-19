@@ -101,12 +101,16 @@ public class LoginTest {
     @After
     public void tearDown() {
         // Удаление пользователя через API
-        if (accessToken != null) {
-            AuthApi.deleteUser(accessToken);
-        }
-
-        if (driver != null) {
-            driver.quit();
+        try {
+            if (accessToken != null) {
+                AuthApi.deleteUser(accessToken); // Игнорируем возможные ошибки
+            }
+        } catch (Exception e) {
+            System.out.println("Ошибка очистки: " + e.getMessage());
+        } finally {
+            if (driver != null) {
+                driver.quit();
+            }
         }
     }
 }
