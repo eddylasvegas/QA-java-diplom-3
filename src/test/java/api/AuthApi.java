@@ -24,12 +24,7 @@ public class AuthApi {
     public static Response registerUser(User user) {
         return given()
                 .header("Content-type", "application/json")
-                .body(String.format(
-                        "{\"email\":\"%s\",\"password\":\"%s\",\"name\":\"%s\"}",
-                        user.getEmail(),
-                        user.getPassword(),
-                        user.getName()
-                ))
+                .body(user) //сериализация
                 .when()
                 .post(REGISTER_ENDPOINT);
     }
@@ -37,11 +32,7 @@ public class AuthApi {
     public static Response loginUser(User user) {
         return given()
                 .header("Content-type", "application/json")
-                .body(String.format(
-                        "{\"email\":\"%s\",\"password\":\"%s\"}",
-                        user.getEmail(),
-                        user.getPassword()
-                ))
+                .body(user) //сериализация
                 .when()
                 .post(LOGIN_ENDPOINT);
     }

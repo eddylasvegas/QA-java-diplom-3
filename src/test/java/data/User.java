@@ -31,4 +31,6 @@ public class User {
         this.name = name;
         return this;
     }
+    // Пустой конструктор для сериализации
+    public User() {}
 }
