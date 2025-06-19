@@ -49,11 +49,27 @@ public class BrowserFactory {
     }
 
     private static WebDriver startYandexBrowser() {
+        // Полное отключение логов WebDriver
+        System.setProperty("webdriver.chrome.silentOutput", "true");
+        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.OFF);
+
+        // Указываем путь к драйверу Яндекс.Браузера
         System.setProperty("webdriver.chrome.driver", YANDEX_DRIVER_PATH);
 
         ChromeOptions options = new ChromeOptions();
         options.setBinary(YANDEX_BINARY_PATH);
-        options.addArguments("--remote-allow-origins=*");
+        options.addArguments(
+                "--remote-allow-origins=*",
+                "--disable-dev-shm-usage",
+                "--no-sandbox",
+                "--disable-blink-features=AutomationControlled",
+                "--disable-logging",
+                "--log-level=3"  // Минимальный уровень логов
+        );
+
+        // Полное отключение DevTools логов
+        options.setExperimentalOption("excludeSwitches",
+                new String[]{"enable-automation", "enable-logging"});
 
         WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
@@ -61,9 +77,28 @@ public class BrowserFactory {
     }
 
     private static WebDriver startChrome() {
-        WebDriverManager.chromedriver().setup();
+        // Полное отключение логов WebDriver
+        System.setProperty("webdriver.chrome.silentOutput", "true");
+        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.OFF);
+
+        WebDriverManager.chromedriver()
+                .driverVersion("137.0.7151.119")
+                .setup();
+
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
+        options.addArguments(
+                "--remote-allow-origins=*",
+                "--disable-dev-shm-usage",
+                "--no-sandbox",
+                "--disable-blink-features=AutomationControlled",
+                "--disable-logging",
+                "--log-level=3"  // Минимальный уровень логов
+        );
+
+        // Полное отключение DevTools
+        options.setExperimentalOption("excludeSwitches",
+                new String[]{"enable-automation", "enable-logging"});
+
         WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         return driver;
