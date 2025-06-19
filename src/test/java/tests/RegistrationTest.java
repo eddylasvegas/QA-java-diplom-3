@@ -23,6 +23,10 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class RegistrationTest {
+    private static final String BASE_URL = "https://stellarburgers.nomoreparties.site/";
+    private static final String REGISTER_URL = BASE_URL + "register";
+    private static final String LOGIN_URL = BASE_URL + "login";
+
     private WebDriver driver;
     private RegistrationPage registrationPage;
     private User user;
@@ -48,7 +52,7 @@ public class RegistrationTest {
 
         // Проверяем переход на страницу входа
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlContains("/login"));
+                .until(ExpectedConditions.urlToBe(LOGIN_URL));
 
         // Получаем токен для удаления через API
         accessToken = AuthApi.loginUser(user)

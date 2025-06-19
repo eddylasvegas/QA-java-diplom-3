@@ -13,6 +13,8 @@ import java.util.Properties;
 public class BrowserFactory {
     private static final Properties properties = new Properties();
     private static final int IMPLICIT_WAIT_SECONDS = 5;
+    private static final String YANDEX_DRIVER_PATH = "C:\\Automation\\YandexDriver\\yandexdriver.exe";
+    private static final String YANDEX_BINARY_PATH = "C:\\Users\\Eldar\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
 
     static {
         try (InputStream input = BrowserFactory.class.getClassLoader().getResourceAsStream("config.properties")) {
@@ -43,10 +45,10 @@ public class BrowserFactory {
     }
 
     private static WebDriver startYandexBrowser() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Automation\\YandexDriver\\yandexdriver.exe");
+        System.setProperty("webdriver.chrome.driver", YANDEX_DRIVER_PATH);
 
         ChromeOptions options = new ChromeOptions();
-        options.setBinary("C:\\Users\\Eldar\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
+        options.setBinary(YANDEX_BINARY_PATH);
         options.addArguments("--remote-allow-origins=*");
 
         WebDriver driver = new ChromeDriver(options);
