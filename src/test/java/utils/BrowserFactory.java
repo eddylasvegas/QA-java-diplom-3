@@ -27,9 +27,13 @@ public class BrowserFactory {
     }
 
     public static WebDriver getDriver() {
-        String browser = properties.getProperty("browser", "chrome").toLowerCase();
-        WebDriver driver;
+        String browser = System.getProperty("browser",
+                        properties.getProperty("browser", "chrome"))
+                .toLowerCase();
 
+        System.out.println("Using browser: " + browser); // Логирование для отладки
+
+        WebDriver driver;
         switch (browser) {
             case "yandex":
                 driver = startYandexBrowser();
