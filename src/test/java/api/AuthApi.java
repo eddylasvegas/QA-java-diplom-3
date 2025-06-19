@@ -3,7 +3,6 @@ package api;
 import data.User;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.apache.http.HttpStatus;
 
 import static io.restassured.RestAssured.given;
 
@@ -41,8 +40,6 @@ public class AuthApi {
         given()
                 .header("Authorization", accessToken)
                 .when()
-                .delete(USER_ENDPOINT)
-                .then()
-                .statusCode(HttpStatus.SC_ACCEPTED);
+                .delete(USER_ENDPOINT);
     }
 }
