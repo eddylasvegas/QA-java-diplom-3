@@ -8,11 +8,14 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import pages.MainPage;
 import utils.BrowserFactory;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import java.util.concurrent.TimeUnit;
 
 
 import static org.junit.Assert.assertTrue;
 
+@RunWith(JUnit4.class)
 public class ConstructorTest {
     private WebDriver driver;
     private MainPage mainPage;

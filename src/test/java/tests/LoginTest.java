@@ -16,9 +16,12 @@ import utils.BrowserFactory;
 import user.UserGenerator;
 import api.AuthApi;
 import java.time.Duration;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import static org.junit.Assert.assertTrue;
 
+@RunWith(JUnit4.class)
 public class LoginTest {
     private static final String BASE_URL = "https://stellarburgers.nomoreparties.site/";
     private static final String REGISTER_URL = BASE_URL + "register";

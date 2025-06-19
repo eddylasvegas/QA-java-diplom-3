@@ -13,11 +13,14 @@ import pages.RegistrationPage;
 import user.UserGenerator;
 import data.User;
 import utils.BrowserFactory;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.time.Duration;
 
 import static org.junit.Assert.assertTrue;
 
+@RunWith(JUnit4.class)
 public class RegistrationTest {
     private WebDriver driver;
     private RegistrationPage registrationPage;
