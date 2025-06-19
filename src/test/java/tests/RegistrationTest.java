@@ -50,9 +50,7 @@ public class RegistrationTest {
         // Регистрируем через UI
         registrationPage.register(user.getName(), user.getEmail(), user.getPassword());
 
-        // Проверяем переход на страницу входа
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlToBe(LOGIN_URL));
+        registrationPage.waitForRedirectToLogin();  // Используем метод Page Object для проверки перехода на страницу
 
         // Получаем токен для удаления через API
         accessToken = AuthApi.loginUser(user)

@@ -11,6 +11,7 @@ public class LoginPage {
     private static final String LOGIN_URL = "https://stellarburgers.nomoreparties.site/login";
 
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     // Локаторы
     private final By emailField = By.xpath(".//input[@name='name']");
@@ -22,6 +23,7 @@ public class LoginPage {
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
     @Step("Открытие страницы входа")
     public void open() {
@@ -47,4 +49,10 @@ public class LoginPage {
     public void clickLoginLink() {
         driver.findElement(loginLink).click();
     }
+
+    @Step("Ожидание перехода на страницу регистрации")
+    public void waitForUrlContainsRegister() {
+        wait.until(ExpectedConditions.urlContains("register"));
+    }
+
 }

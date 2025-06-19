@@ -54,8 +54,7 @@ public class LoginTest {
         loginPage.clickLoginLink();
         loginPage.login(user.getEmail(), user.getPassword());
 
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlToBe(BASE_URL));
+        mainPage.waitForUrlToBeBase(); // Используем метод Page Object
         assertTrue("Главная страница не отображается после входа", mainPage.isBunsActiveByDefault());
     }
 
@@ -67,8 +66,7 @@ public class LoginTest {
         mainPage.clickPersonalAccountButton();
         loginPage.login(user.getEmail(), user.getPassword());
 
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlToBe(BASE_URL));
+        mainPage.waitForUrlToBeBase(); // Используем метод Page Object
         assertTrue("Главная страница не отображается после входа", mainPage.isBunsActiveByDefault());
     }
 
@@ -77,13 +75,11 @@ public class LoginTest {
     @Description("Тест проверяет вход через ссылку 'Войти' на странице регистрации")
     public void loginViaRegistrationFormLinkTest() {
         driver.get(REGISTER_URL);
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlContains("register")); // Ждем загрузки
+        loginPage.waitForUrlContainsRegister(); // Используем метод Page Object
         loginPage.clickLoginLink();
         loginPage.login(user.getEmail(), user.getPassword());
 
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlToBe(BASE_URL));
+        mainPage.waitForUrlToBeBase(); // Используем метод Page Object
         assertTrue("Главная страница не отображается после входа", mainPage.isBunsActiveByDefault());
     }
 
@@ -98,8 +94,7 @@ public class LoginTest {
         driver.navigate().back();
         loginPage.login(user.getEmail(), user.getPassword());
 
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlToBe(BASE_URL));
+        mainPage.waitForUrlToBeBase(); // Используем метод Page Object
         assertTrue("Главная страница не отображается после входа", mainPage.isBunsActiveByDefault());
     }
 

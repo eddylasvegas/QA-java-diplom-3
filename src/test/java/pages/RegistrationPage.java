@@ -9,8 +9,10 @@ import java.time.Duration;
 
 public class RegistrationPage {
     private static final String REGISTER_URL = "https://stellarburgers.nomoreparties.site/register";
+    private static final String LOGIN_URL = "https://stellarburgers.nomoreparties.site/login";
 
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     // Локаторы
     private final By nameField = By.xpath(".//fieldset[contains(.,'Имя')]//input");
@@ -22,6 +24,7 @@ public class RegistrationPage {
 
     public RegistrationPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
     @Step("Открытие страницы регистрации")
     public void open() {
@@ -47,5 +50,10 @@ public class RegistrationPage {
     @Step("Клик по ссылке Войти")
     public void clickLoginLink() {
         driver.findElement(loginLink).click();
+    }
+
+    @Step("Ожидание перехода на страницу входа после регистрации")
+    public void waitForRedirectToLogin() {
+        wait.until(ExpectedConditions.urlToBe(LOGIN_URL));
     }
 }

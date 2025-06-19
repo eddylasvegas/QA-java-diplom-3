@@ -12,6 +12,7 @@ public class MainPage {
     private static final String ACTIVE_TAB_CLASS = "current";
 
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     // Локаторы
     private final By constructorTitle = By.xpath("//h1[text()='Соберите бургер']");
@@ -23,6 +24,7 @@ public class MainPage {
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
     @Step("Открытие главной страницы")
     public void open() {
@@ -97,5 +99,10 @@ public class MainPage {
     @Step("Клик по кнопке Личный кабинет")
     public void clickPersonalAccountButton() {
         driver.findElement(personalAccountButton).click();
+    }
+
+    @Step("Ожидание перехода на главную страницу")
+    public void waitForUrlToBeBase() {
+        wait.until(ExpectedConditions.urlToBe(BASE_URL));
     }
 }
